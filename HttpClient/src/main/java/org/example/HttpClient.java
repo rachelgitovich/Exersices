@@ -49,7 +49,7 @@ public class HttpClient {
                 request = new HttpDelete(url);
                 break;
             default:
-                break;
+                throw new IllegalArgumentException("Http method not supported");
         }
         HttpUriRequestBase finalRequest = request;
         headers.forEach((key, value) -> finalRequest.setHeader(key, value));

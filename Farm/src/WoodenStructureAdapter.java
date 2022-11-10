@@ -1,23 +1,17 @@
-public class WoodenStructureAdapter implements WoodenStructures {
-    Horse horse;
+public class WoodenStructureAdapter implements Animal {
+private WoodenStructures woodenStructures;
 
-    public WoodenStructureAdapter(Horse horse) {
-
-        this.horse = horse;
-    }
-    public WoodenStructureAdapter() {
-        super();
-        this.horse = new Horse(AbstractAnimal.randomWeight(0.2, 1), Gender.randomGender());
-    }
-
-
-    @Override
-    public void roll() {
-        horse.move();
+    public WoodenStructureAdapter(WoodenStructures woodenStructures) {
+        this.woodenStructures = woodenStructures;
     }
 
     @Override
-    public WoodenStructures replicate() {
-        return new WoodenStructureAdapter();
+    public void move() {
+        woodenStructures.roll();
+    }
+
+    @Override
+    public Animal mate(Animal animal) throws Exception {
+        return new WoodenStructureAdapter(woodenStructures.replicate());
     }
 }

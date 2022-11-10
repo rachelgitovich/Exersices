@@ -1,0 +1,1 @@
+$(".item").on('click',function(){$('#cart').appendChild(`<p> ${$(this).text()}</p>`)})
