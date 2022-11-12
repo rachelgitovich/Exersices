@@ -54,13 +54,18 @@ public class AuthenticationController {
         boolean emailMatchFound = matchMail.matches();
         boolean passwordMatchFound = matchPassword.matches();
         if (!emailMatchFound) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("wrong email");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("wrong email");
         }
         if (!passwordMatchFound) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("wrong password");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("wrong password");
         }
+        try{
         authenticationService.createUser(user.getName(), user.getEmail(), user.getPassword());
         return ResponseEntity.status(HttpStatus.CREATED).body("user created successfully!");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("user already exists");
+
+        }
     }
 }
 

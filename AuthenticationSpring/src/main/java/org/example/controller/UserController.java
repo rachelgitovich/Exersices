@@ -35,13 +35,14 @@ public class UserController {
         }
         return userController;
     }
+
     @RequestMapping(value = "/updateName", method = RequestMethod.PATCH)
     public ResponseEntity<String> updateUserName(@RequestHeader String token, @RequestBody NameRequest userName) {
         if (authenticateUser(token)) {
             userService.updateUserName(authenticationService.getId(token), userName.getName());
             return ResponseEntity.status(HttpStatus.OK).body("name updated successfully");
         }
-       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user is not logged in");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user is not logged in");
     }
 
     @RequestMapping(value = "/updateEmail", method = RequestMethod.PATCH)
@@ -51,7 +52,7 @@ public class UserController {
                 userService.updateEmail(authenticationService.getId(token), email.getEmail());
                 return ResponseEntity.status(HttpStatus.OK).body("email updated successfully");
             } else {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("wrong email");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("wrong email");
             }
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user is not logged in");
@@ -66,7 +67,7 @@ public class UserController {
                 userService.updatePassword(authenticationService.getId(token), password.getPassword());
                 return ResponseEntity.status(HttpStatus.OK).body("password updated successfully");
             } else {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("password is not valid");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("password is not valid");
             }
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user is not logged in");
@@ -80,23 +81,12 @@ public class UserController {
 
     public boolean validateEmail(String email) {
         Matcher m = emailPattern.matcher(email);
-        boolean matchFound = m.matches();
-        if (matchFound) {
-            if (userService.checkIfEmailExists(email)) {
-                throw new IllegalArgumentException("You cant change the email to the same one");
-            }
-            return true;
-        }
-        return false;
+        return m.matches();
     }
 
     public boolean validatePassword(String password) {
         Matcher m = PASSWORD_PATTERN.matcher(password);
-        boolean matchFound = m.matches();
-        if (matchFound) {
-            return true;
-        }
-        return false;
+        return m.matches();
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)

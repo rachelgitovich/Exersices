@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @Repository
-public class UserRepository{
+public class UserRepository {
     private final String path = "../AuthenticationSpring/src/main/java/org/example/repository/users/";
     private final Gson gson = new Gson();
     private static UserRepository userRepository;
@@ -75,7 +75,7 @@ public class UserRepository{
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
-                User user=fetchUser(file.getPath());
+                User user = fetchUser(file.getPath());
                 if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                     return true;
                 }
