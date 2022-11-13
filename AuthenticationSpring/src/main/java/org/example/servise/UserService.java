@@ -6,22 +6,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private UserService() {
-        userRepository = UserRepository.getInstance();
-    }
 
-
-    public static synchronized UserService getInstance() {
-        if (userService == null) {
-            userService = new UserService();
-        }
-        return userService;
-    }
-    private static UserService userService;
     @Autowired
     private UserRepository userRepository;
-
-
 
     public void updateEmail(String id, String email) {
         userRepository.updateEmail(id, email);

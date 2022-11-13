@@ -16,22 +16,11 @@ import java.util.regex.Pattern;
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
-    private static AuthenticationController authenticationController;
     @Autowired
     private AuthenticationService authenticationService;
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[0-9])(?=.*[a-z]).{8,20}$");
     private static final Pattern emailPattern = Pattern.compile(".+@.+\\.[a-z]+");
 
-    private AuthenticationController() {
-        authenticationService = AuthenticationService.getInstance();
-    }
-
-    public static synchronized AuthenticationController getInstance() {
-        if (authenticationController == null) {
-            authenticationController = new AuthenticationController();
-        }
-        return authenticationController;
-    }
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<String> logIn(@RequestBody LoginRequest login) {
         if (authenticationService.checkIfUserExists(login.getEmail(), login.getPassword())) {

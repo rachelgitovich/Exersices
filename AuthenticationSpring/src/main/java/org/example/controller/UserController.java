@@ -16,25 +16,13 @@ import java.util.regex.Pattern;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private static UserController userController;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AuthenticationService authenticationService;
+
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[0-9])(?=.*[a-z]).{8,20}$");
     private static final Pattern emailPattern = Pattern.compile(".+@.+\\.[a-z]+");
-    private static AuthenticationService authenticationService;
-
-
-    private UserController() {
-        userService = UserService.getInstance();
-        authenticationService = AuthenticationService.getInstance();
-    }
-
-    public static synchronized UserController getInstance() {
-        if (userController == null) {
-            userController = new UserController();
-        }
-        return userController;
-    }
 
     @RequestMapping(value = "/updateName", method = RequestMethod.PATCH)
     public ResponseEntity<String> updateUserName(@RequestHeader String token, @RequestBody NameRequest userName) {

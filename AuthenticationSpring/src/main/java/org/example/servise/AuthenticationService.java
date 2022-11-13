@@ -10,20 +10,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class AuthenticationService {
-    private static AuthenticationService authenticationService;
     @Autowired
     private UserRepository userRepository;
-
-    private AuthenticationService() {
-        userRepository = UserRepository.getInstance();
-    }
-
-    public static synchronized AuthenticationService getInstance() {
-        if (authenticationService == null) {
-            authenticationService = new AuthenticationService();
-        }
-        return authenticationService;
-    }
 
     public static HashMap<String, String> userTokens = new HashMap<>();
 

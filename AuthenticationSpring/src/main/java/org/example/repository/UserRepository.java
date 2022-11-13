@@ -14,17 +14,6 @@ import java.nio.file.Paths;
 public class UserRepository {
     private final String path = "../AuthenticationSpring/src/main/java/org/example/repository/users/";
     private final Gson gson = new Gson();
-    private static UserRepository userRepository;
-
-    private UserRepository() {
-    }
-
-    public static synchronized UserRepository getInstance() {
-        if (userRepository == null) {
-            userRepository = new UserRepository();
-        }
-        return userRepository;
-    }
 
     private User fetchUser(String filePath) {
         JsonReader reader = null;
